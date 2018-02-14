@@ -1,4 +1,4 @@
-
+let n = 10
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
@@ -18,7 +18,12 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x += dt * Math.floor((Math.random() * 50) + 1)   
+    if (this.x > 500) {
+        let trafficlanes = [225, 140, 60]
+        this.x = 0;
+        this.y = trafficlanes[Math.floor((Math.random() * trafficlanes.length))];
+    };
+    this.x += dt * Math.floor((Math.random() * 600) + 1)   
 };
 
 // Draw the enemy on the screen, required method for game
@@ -31,44 +36,44 @@ Enemy.prototype.render = function() {
 // a handleInput() method.
 var Player = function() {
     this.sprite = 'images/char-boy.png';
-    this.row = 6
-    this.col = 3 
-    this.y = (((this.row - 1) * 83) -10)
-    this.x = (this.col - 1) * 101
+    this.row = 6;
+    this.col = 3;
+    this.y = (((this.row - 1) * 83) -10);
+    this.x = (this.col - 1) * 101;
 };
 
 Player.prototype.update = function () {
-    this.y =(((this.row - 1) * 83) -10)
-    this.x =(this.col -1) * 101
+    this.y =(((this.row - 1) * 83) -10);
+    this.x =(this.col -1) * 101;
 };
 
 Player.prototype.render = function () {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y)
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
 Player.prototype.handleInput = function (keyCode) {
     console.log(keyCode)
     switch(keyCode){
         case 'left':
-        if (player.col > 0 && player.col < 6){
-            player.col -= 1;
+            if (player.col > 1 && player.col < 6){
+                player.col -= 1;
+            }
             break
-        }
         case 'up':
-        if (player.row > 0 && player.row < 7){
-            player.row -= 1;
+            if (player.row > 1 && player.row < 7){
+                player.row -= 1;
+            }
             break
-        }
         case 'right':
-        if (player.col > 0 && player.col < 6){
-            player.col += 1;
+            if (player.col > 0 && player.col < 5){
+                player.col += 1;
+            }
             break
-        }
         case 'down':
-        if (player.row > 0 && player.row < 6){
-            player.row += 1;
+            if (player.row > 0 && player.row < 6){
+                player.row += 1;
+            }
             break
-        }
     };
 };
 // Now instantiate your objects.
@@ -76,9 +81,18 @@ Player.prototype.handleInput = function (keyCode) {
 // Place the player object in a variable called player
 let allEnemies = []
 let player = new Player
-let enemy = new Enemy
-allEnemies.push(enemy)
 
+
+let levelEnemies = function (n) {
+    for (n; n > 0; n--){
+        let enemy = new Enemy;
+        enemy.en_index = n;
+        allEnemies.push(enemy);
+    }
+    return allEnemies
+};
+
+levelEnemies(n)
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
