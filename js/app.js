@@ -1,4 +1,4 @@
-let n = 10
+let n = 3
 // Enemies our player must avoid
 var Enemy = function() {
     // Variables applied to each of our instances go here,
