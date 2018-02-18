@@ -8,8 +8,10 @@ var Enemy = function() {
     // a helper we've provided to easily load images
     let trafficlanes = [225, 140, 60]
     this.sprite = 'images/enemy-bug.png';
-    this.x = 1
+    this.x = 0;
     this.y = trafficlanes[Math.floor((Math.random() * trafficlanes.length))];
+    this.row = Math.floor(this.x/83)+1;
+    this.col = Math.floor(this.y/101)+1;
 };
 
 // Update the enemy's position, required method for game
@@ -19,11 +21,13 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     if (this.x > 500) {
-        let trafficlanes = [225, 140, 60]
+        let trafficlanes = [225, 140, 60];
         this.x = 0;
         this.y = trafficlanes[Math.floor((Math.random() * trafficlanes.length))];
     };
-    this.x += dt * Math.floor((Math.random() * 600) + 1)   
+    this.x += dt * Math.floor((Math.random() * 600) + 1);
+    this.col = Math.floor(this.x/101)+1;
+    this.row = Math.floor(this.y/83)+2;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -81,7 +85,6 @@ Player.prototype.handleInput = function (keyCode) {
 // Place the player object in a variable called player
 let allEnemies = []
 let player = new Player
-
 
 let levelEnemies = function (n) {
     for (n; n > 0; n--){

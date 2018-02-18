@@ -79,7 +79,8 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        // checkCollisions();
+        checkCollisions();
+        checkWin();
     }
 
     /* This is called by the update function and loops through all of the
@@ -94,6 +95,31 @@ var Engine = (function(global) {
             enemy.update(dt);
         });
         player.update();
+    }
+
+    /* This function was created by Calvin to check for collisions between any of the bugs, 
+    * and the player character, it should use the current enemy and player x, y coordinates 
+    * to identify a col and row for each entity so that if at least one bug occupies the same space 
+    * the game is reset to its initial state.
+    */
+   function checkCollisions() {
+       allEnemies.forEach(function(enemy) {
+           if (player.col == enemy.col && player.row == enemy.row) {
+               alert("Oops, a collision was detected, GAME OVER :(")
+               location.reload
+           };
+       });
+    }
+
+    /* This function will check if the player.col is on the top row, 
+    * if so then the player has won the game and a message box should be displayed.
+    */
+
+   function checkWin() {
+       if (player.row == 1) {
+           alert("You have succesfully reached the water, WINNER!")
+           location.reload()
+       };
     }
 
     /* This function initially draws the "game level", it will then call
